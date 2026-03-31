@@ -1,0 +1,229 @@
+cat > app/templates/index.html << 'EOF'
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MNIST Digit Classifier - Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            animation: slideIn 0.5s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .content {
+            padding: 50px;
+        }
+        
+        .uptime-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .uptime-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .menu-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+        
+        .menu-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+            background: white;
+        }
+        
+        .menu-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+        
+        .menu-card h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.5em;
+        }
+        
+        .menu-card p {
+            color: #666;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        .features {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+        }
+        
+        .features h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .feature-item {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .feature-item span {
+            font-size: 1.5em;
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                padding: 30px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> MNIST Digit Classifier</h1>
+            <p>Handwritten Digit Recognition with Deep Learning</p>
+        </div>
+        
+        <div class="content">
+            <div class="uptime-card">
+                <p style="font-size: 1.1em;">⏱ Model Uptime</p>
+                <div class="uptime-value">{{ uptime }} minutes</div>
+                <div class="status-badge"> Model Ready & Online</div>
+            </div>
+            
+            <div class="menu-grid">
+                <a href="/predict" class="menu-card">
+                    <div class="menu-icon"></div>
+                    <h2>Predict a Digit</h2>
+                    <p>Upload an image of a handwritten digit and get instant AI prediction with confidence score</p>
+                </a>
+                
+                <a href="/visualizations" class="menu-card">
+                    <div class="menu-icon"></div>
+                    <h2>Data Visualizations</h2>
+                    <p>Explore dataset insights, class distributions, and model performance metrics</p>
+                </a>
+                
+                <a href="/retrain" class="menu-card">
+                    <div class="menu-icon"></div>
+                    <h2>Retrain Model</h2>
+                    <p>Upload new data to improve model accuracy and adapt to new handwriting styles</p>
+                </a>
+            </div>
+            
+            <div class="features">
+                <h3> Features</h3>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <span></span> 99% Accuracy
+                    </div>
+                    <div class="feature-item">
+                        <span></span> Real-time Predictions
+                    </div>
+                    <div class="feature-item">
+                        <span></span> Retrain Capability
+                    </div>
+                    <div class="feature-item">
+                        <span></span> Interactive Visualizations
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+EOF
