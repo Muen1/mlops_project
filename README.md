@@ -121,13 +121,17 @@ docker-compose down
 ```
 
 ## Load Test Results
+
 I used **Locust** to evaluate how the system performs under different concurrent user loads on a single Docker container.
 
 ### Test Configuration
 
 -**Tool**: Locust 2.17.0
+
 -**Container**: Single Docker container
+
 -**Test Duration**: 60 seconds per test
+
 -**Target Endpoint**: POST /predict (digit prediction)
 
 The POST /predict endpoint is the most resource-intensive because it:
@@ -147,6 +151,7 @@ The container had failures because with 5+ concurrent users, it could not proces
 
 ## Project Structure
 
+```text
 mlops_project/
 ├── app/                          # Flask web application
 │   ├── __init__.py
@@ -182,6 +187,8 @@ mlops_project/
 ├── locustfile.py                 # Load testing script
 ├── requirements.txt              # Python dependencies
 └── README.md                     
+```
+
 
 ## Video Demo
 

@@ -16,13 +16,12 @@ dist/
 build/
 *.egg
 
-# Model backups (keep only main model)
+# Model backups 
 models/*_backup_*.h5
 models/*.h5.bak
 models/*.pkl.bak
 
-# Temporary data and test files
-test_images/
+# Temporary data and test files(root level)
 retrain_data/
 retrain_data.zip
 uploads/
@@ -30,6 +29,10 @@ data/retrain/
 *.zip
 *.tar.gz
 *.rar
+
+# BUT keep data/retrain/ (add exception)
+!data/retrain/
+!data/retrain/*.zip
 
 # Jupyter Notebook
 .ipynb_checkpoints/
