@@ -72,7 +72,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-4. Train the model (optional-model is already included)
+4. Train the model 
 
 ```bash
 jupyter notebook notebook/model_training.ipynb
@@ -149,6 +149,55 @@ The container had failures because with 5+ concurrent users, it could not proces
 3. **Optimize Model**: Use TensorFlow Lite for faster inference (reduces response time by 40%)
 4. **Increase Resources**: Use larger container with more CPU/memory allocation.
 
+## How to test the Application
+
+The repository includes test images and retraining data in the `data/` folder:
+
+1. Start the Application (local or Docker)
+```bash
+# Local
+   python app/app.py
+   
+   # OR Docker
+   docker run -d -p 5000:5000 --name mlops_app mlops_project
+```
+
+2. Open your browser and go to
+[http://localhost:5000](http://localhost:5000)
+
+3. Test Prediction
+
+- Click "Predict a Digit"
+- Click "Browse Files"
+- Navigate to data/test/ folder
+- Select any image (e.g., digit_5.png)
+- Click "Predict"
+
+You should see: Prediction: 5 with 99% confidence
+
+4. Test all digits
+
+```bash
+# Test all 10 digits with curl
+for i in {0..9}; do
+  curl -X POST -F "file=@data/test/digit_${i}.png" http://localhost:5000/predict
+  echo ""
+done
+```
+5. Testing retraining
+
+- Go to retraining page: http://localhost:5000/retrain
+
+- Upload retraining data:
+    - Click "Browse Files"
+    - Navigate to data/retrain/retrain_data.zip
+    - Click "Upload and Retrain Model"
+- Wait for retraining to complete (1-2 minutes)
+- Verify retraining worked:
+- Go back to prediction page
+- Upload the same test image
+- The model should still predict correctly
+
 ## Project Structure
 
 ```text
@@ -193,6 +242,7 @@ mlops_project/
 ## Video Demo
 
 [YouTube]()
+
 
 ## Note on Free Tier Limitations
 
