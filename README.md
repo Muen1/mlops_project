@@ -149,10 +149,7 @@ locust -f locustfile.py --host=http://localhost:5000
 ```
 
 2. Open browser to; 
-
-```text
-http://localhost:8089
-```
+[http://localhost:8089](http://localhost:8089)
 
 3. Set users and Spawn rate and click start
 
