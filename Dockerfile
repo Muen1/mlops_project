@@ -32,4 +32,4 @@ EXPOSE 10000
 # Run the application with gunicorn (production server)
 # Uses PORT environment variable from Render, defaults to 10000
 # Reduced workers to 2 for memory constraints on free tier
-CMD gunicorn -b 0.0.0.0:${PORT:-10000} --timeout 120 --workers 2 app.app:app
+CMD gunicorn -b 0.0.0.0:${PORT:-5000} --timeout 120 --workers 2 app.app:app
