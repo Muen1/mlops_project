@@ -142,6 +142,49 @@ The POST /predict endpoint is the most resource-intensive because it:
 
 The container had failures because with 5+ concurrent users, it could not process all requests within the timeout window. However, the GET endpoints (homepage, visualizations) show 0% failures under all loads.
 
+1. Open new terminal and show locust
+
+```bash
+locust -f locustfile.py --host=http://localhost:5000
+```
+
+2. Open browser to; 
+
+```text
+http://localhost:8089
+```
+
+3. Set users and Spawn rate and click start
+
+### Results Summary
+
+| Concurrent Users | Total Requests | Failures | Failure Rate | Avg Response Time | RPS |
+|------------------|----------------|----------|--------------|-------------------|-----|
+| 3 users | ~150 | ~13 | **9%** | 55ms | 2.5 |
+| 5 users | ~174 | 26 | **15%** | 65ms | 2.9 |
+| 10 users | ~2982 | 954 | **32%** | 85ms | 6.1 |
+
+### Analysis
+
+The POST `/predict` endpoint is the most resource-intensive because it:
+
+1. Loads the TensorFlow model (100MB+)
+2. Processes the uploaded image
+3. Runs neural network inference
+4. Returns the JSON prediction
+
+**Key Findings:**
+
+| Users | Failure Rate | Status |
+|-------|--------------|--------|
+| 2 users | 0% |  Optimal capacity |
+| 3 users | 9% |  First signs of overload |
+| 5 users | 15% |  Moderate overload |
+| 10 users | 32% |  Severe overload |
+
+> **Note:** The GET endpoints (homepage, visualizations) showed **0% failures** under all loads.
+
+
 ### Recommendations
 
 1. **Horizontal Scaling**: Deploy 2-4 containers to handle 10+ users (expected 0% failures)
@@ -241,7 +284,7 @@ mlops_project/
 
 ## Video Demo
 
-[YouTube]()
+[https://youtu.be/SiKMsCQ26CQ](https://youtu.be/SiKMsCQ26CQ)
 
 
 ## Note on Free Tier Limitations
